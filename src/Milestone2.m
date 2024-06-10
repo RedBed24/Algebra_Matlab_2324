@@ -5,38 +5,24 @@
 % Milestone 2
 % Briefly describe the steps taken to address this milestone:
 % 
-% 
-% 
-% 
+% 1. Obtener latitud y longitud de todas las ciudades a la vez
+% 2. Obtener las distancias entre todas las ciudades a la vez
 
-clear all
-clc;
+PI = 3.141592;
 
+deg_x = floor(ciudadesESP.lat);
+min_x = ciudadesESP.lat - deg_x;
+latitude = PI * (deg_x + 5.0 / 3.0 * min_x)/180.0;
 
-% Variable definition
-load('ciuESPdata.mat');
+deg_y = floor(ciudadesESP.lng);
+min_y = ciudadesESP.lng - deg_y;
+longitude = PI * (deg_y + 5.0 / 3.0 * min_y)/180.0;
 
-% Convertir las coordenadas a radianes
-deg_to_rad = pi / 180;
-lat_rad = deg_to_rad * lat;
-lon_rad = deg_to_rad * long;
+% Distancias
 
-% Calcular la matriz de distancia entre las ciudades
-R = 6378.388; % Radio de la Tierra en kilómetros
+R = 6378.388;
 
-num_cities = size(ciudadesESP, 1);
-distances = zeros(num_cities);
-
-for i = 1:num_cities
-    for j = 1:num_cities
-        q1 = cos(lon_rad(i) - lon_rad(j));
-        q2 = cos(lat_rad(i) - lat_rad(j));
-        q3 = cos(lat_rad(i) + lat_rad(j));
-        distances(i, j) = R * acos(0.5 * ((1.0 + q1) * q2 - (1.0 - q1) * q3));
-    end
-end
-
-% Imprimir la matriz de distancia
-disp('Matriz distancias:');
-disp(distances);
-
+q1 = cos(longitude - longitude');
+q2 = cos(latitude - latitude');
+q3 = cos(latitude + latitude');
+d_ij = R * acos(0.5 * ((1.0 + q1) .* q2 - (1.0 - q1) .* q3));
