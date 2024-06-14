@@ -21,4 +21,10 @@ for pais = ["ES" "DE" "FR" "IT"]
     elapsed = cputime - start;
 
     cost(c, d_ij);
+
+	start = cputime;
+    c = studentAlgorithm(d_ij, 1, length(d_ij));
+    elapsed = cputime - start;
+
+    cost(c, d_ij);
 end
